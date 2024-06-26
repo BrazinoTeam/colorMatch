@@ -9,46 +9,121 @@ class HomeView: UIView {
     
     private lazy var backImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = .bgHome
+        imageView.image = .bgClassic
         return imageView
     }()
     
+    private lazy var containerInfo: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = .contInfo
+        imageView.layer.shadowColor = UIColor.black.withAlphaComponent(0.4).cgColor
+        imageView.layer.shadowOpacity = 1
+        imageView.layer.shadowRadius = 12
+        imageView.layer.shadowOffset = CGSize(width: 0, height: 4)
+        return imageView
+    }()
+
+    private lazy var imgUser: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = .imgUserDef
+        imageView.layer.cornerRadius = 20
+        return imageView
+    }()
+    
+    private lazy var nameLabel: UILabel = {
+        let label = UILabel.createLabel(withText: "\(UD.shared.userName ?? "User Name")", font: .customFont(font: .squadaOne, style: .regular, size: 36), textColor: .white, paragraphSpacing: 1, lineHeightMultiple: 1)
+        return label
+    }()
+    
+    private lazy var lineLeftView: UIView = {
+        let view = UIImageView()
+        view.backgroundColor = .cPurple
+        return view
+    }()
+    
+    private lazy var lineRightView: UIView = {
+        let view = UIImageView()
+        view.backgroundColor = .cPurple
+        return view
+    }()
+    
+    private lazy var sinceLabel: UILabel = {
+        let label = UILabel.createLabel(withText: "In game since", font: .customFont(font: .inter, style: .light, size: 12), textColor: .white, paragraphSpacing: 1, lineHeightMultiple: 0.99)
+        return label
+    }()
+    
+    private lazy var gamesPlayedLabel: UILabel = {
+        let label = UILabel.createLabel(withText: "Games played", font: .customFont(font: .inter, style: .light, size: 12), textColor: .white, paragraphSpacing: 1, lineHeightMultiple: 0.99)
+        return label
+    }()
+    
+    private lazy var bonusLabel: UILabel = {
+        let label = UILabel.createLabel(withText: "Bonuses received", font: .customFont(font: .inter, style: .light, size: 12), textColor: .white, paragraphSpacing: 1, lineHeightMultiple: 0.99)
+        return label
+    }()
+    
+    
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel.createLabel(withText: "TOTAL POINTS", font: .customFont(font: .inter, style: .light, size: 14), textColor: .white, paragraphSpacing: 1, lineHeightMultiple: 0.99)
+        return label
+    }()
+    
+    private(set) lazy var subTitleLabel: UILabel = {
+        let label = UILabel.createLabel(withText: "\(UD.shared.scoreCoints)", font: .customFont(font: .squadaOne, style: .regular, size: 60), textColor: .cYellow, paragraphSpacing: 1, lineHeightMultiple: 0.76)
+        return label
+    }()
     
     private(set) lazy var playBtn: UIButton = {
         let btn = UIButton()
-        btn.setImage(.bgInfo, for: .normal)
+        btn.setImage(.btnPlay, for: .normal)
+        btn.setImage(.btnPlayTapped, for: .highlighted)
         return btn
     }()
     
     private(set) lazy var leadBtn: UIButton = {
         let btn = UIButton()
-        btn.backgroundColor = .blue
-        btn.setTitle("L", for: .normal)
+        btn.setImage(.btnLead, for: .normal)
+        btn.setImage(.btnLeadTapped, for: .highlighted)
         return btn
     }()
     
     private(set) lazy var infoBtn: UIButton = {
         let btn = UIButton()
-        btn.backgroundColor = .green
-        btn.setTitle("I", for: .normal)
+        btn.setImage(.btnInfo, for: .normal)
+        btn.setImage(.btnInfoTapped, for: .highlighted)
         return btn
     }()
     
     private(set) lazy var profileBtn: UIButton = {
         let btn = UIButton()
-        btn.backgroundColor = .black
-        btn.setTitle("P", for: .normal)
+        btn.setImage(.btnProfile, for: .normal)
+        btn.setImage(.btnProfileTapped, for: .highlighted)
         return btn
     }()
     
     private(set) lazy var bonusBtn: UIButton = {
         let btn = UIButton()
-        btn.backgroundColor = .yellow
-        btn.setTitle("B", for: .normal)
+        btn.setImage(.btnBonus, for: .normal)
+        btn.setImage(.btnBonusTapped, for: .highlighted)
         return btn
     }()
     
+    private(set) lazy var settingBtn: UIButton = {
+        let btn = UIButton()
+        btn.setImage(.btnSettings, for: .normal)
+        btn.setImage(.btnSettingsTapped, for: .highlighted)
+        return btn
+    }()
 
+    private lazy var buttonStack: UIStackView = {
+         let stackView = UIStackView(arrangedSubviews: [leadBtn, infoBtn, profileBtn, bonusBtn, settingBtn])
+         stackView.axis = .horizontal
+         stackView.alignment = .fill
+         stackView.distribution = .equalSpacing
+         stackView.spacing = 0
+         return stackView
+     }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -61,47 +136,112 @@ class HomeView: UIView {
     }
     
     private func setupUI() {
-        [backImage, playBtn, leadBtn, infoBtn, profileBtn, bonusBtn] .forEach(addSubview(_:))
+        [backImage, subTitleLabel, containerInfo, titleLabel, playBtn, buttonStack] .forEach(addSubview(_:))
+        containerInfo.addSubview(imgUser)
+        containerInfo.addSubview(nameLabel)
+        containerInfo.addSubview(sinceLabel)
+        containerInfo.addSubview(lineLeftView)
+        containerInfo.addSubview(lineRightView)
+
+        containerInfo.addSubview(bonusLabel)
+        containerInfo.addSubview(gamesPlayedLabel)
+
+
     }
     
     private func setUpConstraints(){
         
         backImage.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
-            }
+        }
+        
+        containerInfo.snp.makeConstraints { (make) in
+            make.top.equalToSuperview().offset(64)
+            make.left.right.equalToSuperview().inset(20)
+            make.height.equalTo(183)
+        }
+        
+        imgUser.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().offset(12)
+            make.top.equalToSuperview().offset(20)
+        }
+        
+        nameLabel.snp.makeConstraints { (make) in
+            make.centerY.equalTo(imgUser)
+            make.left.equalTo(imgUser.snp.right).offset(12)
+        }
+        
+        sinceLabel.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(imgUser.snp.bottom).offset(18)
+        }
+        
+        lineLeftView.snp.makeConstraints { (make) in
+            make.right.equalTo(sinceLabel.snp.left).offset(-20)
+            make.top.equalTo(imgUser.snp.bottom).offset(18)
+            make.height.equalTo(40)
+            make.width.equalTo(1)
+        }
+        
+        lineRightView.snp.makeConstraints { (make) in
+            make.left.equalTo(sinceLabel.snp.right).offset(20)
+            make.top.equalTo(imgUser.snp.bottom).offset(18)
+            make.height.equalTo(40)
+            make.width.equalTo(1)
+        }
+        
+        gamesPlayedLabel.snp.makeConstraints { (make) in
+            make.right.equalTo(lineLeftView.snp.left).offset(-15)
+            make.top.equalTo(imgUser.snp.bottom).offset(18)
+        }
+        
+        bonusLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(lineRightView.snp.right).offset(6)
+            make.top.equalTo(imgUser.snp.bottom).offset(18)
+        }
+        
+        titleLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(containerInfo.snp.bottom).offset(46)
+            make.centerX.equalToSuperview()
+        }
+        
+        subTitleLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(titleLabel.snp.bottom).offset(8)
+            make.centerX.equalToSuperview()
+            make.height.equalTo(60)
+        }
         
         playBtn.snp.makeConstraints { (make) in
-            make.center.equalToSuperview()
-            make.size.equalTo(220)
-            }
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().offset(60)
+            make.size.equalTo(388)
+        }
+        
+        buttonStack.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.height.equalTo(180)
+        }
         
         leadBtn.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().offset(20)
-            make.height.equalTo(180)
             make.width.equalTo(68)
-            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
-            }
+        }
         
         infoBtn.snp.makeConstraints { (make) in
-            make.left.equalTo(leadBtn.snp.right)
-            make.height.equalTo(180)
             make.width.equalTo(68)
-            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
-            }
+        }
         
         profileBtn.snp.makeConstraints { (make) in
-            make.left.equalTo(infoBtn.snp.right)
-            make.height.equalTo(180)
             make.width.equalTo(68)
-            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
-            }
+        }
         
         bonusBtn.snp.makeConstraints { (make) in
-            make.left.equalTo(profileBtn.snp.right)
-            make.height.equalTo(180)
             make.width.equalTo(68)
-            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
-            }
+        }
+        
+        settingBtn.snp.makeConstraints { (make) in
+            make.width.equalTo(68)
         }
     }
+}
 

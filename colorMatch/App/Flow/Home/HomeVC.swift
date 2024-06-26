@@ -18,10 +18,17 @@ final class HomeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tappedButtons()
-        view.backgroundColor = .black
     }
     
- 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateCoints()
+    }
+    
+    private func updateCoints() {
+        contentView.subTitleLabel.text = "\(UD.shared.scoreCoints)"
+    }
+    
     private func tappedButtons() {
         contentView.playBtn.addTarget(self, action: #selector(goGame), for: .touchUpInside)
 //        contentView.leadBtn.addTarget(self, action: #selector(goLeaders), for: .touchUpInside)

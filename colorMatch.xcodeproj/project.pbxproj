@@ -13,6 +13,12 @@
 		181CA2B02C2AC90700FDE4BF /* UD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181CA2AF2C2AC90700FDE4BF /* UD.swift */; };
 		181CA2B32C2AC9CD00FDE4BF /* CustomSKButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181CA2B22C2AC9CD00FDE4BF /* CustomSKButton.swift */; };
 		181CA2B52C2ACA1A00FDE4BF /* Double + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181CA2B42C2ACA1A00FDE4BF /* Double + Extension.swift */; };
+		1849858C2C2C1D31001E6104 /* StartVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1849858B2C2C1D31001E6104 /* StartVC.swift */; };
+		1849858E2C2C1D35001E6104 /* StartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1849858D2C2C1D35001E6104 /* StartView.swift */; };
+		184985912C2C1F56001E6104 /* SquadaOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 184985902C2C1F56001E6104 /* SquadaOne-Regular.ttf */; };
+		184985942C2C1F75001E6104 /* Inter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 184985922C2C1F75001E6104 /* Inter-Regular.ttf */; };
+		184985952C2C1F75001E6104 /* Inter-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 184985932C2C1F75001E6104 /* Inter-Light.ttf */; };
+		184985972C2C1F9E001E6104 /* Font + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184985962C2C1F9E001E6104 /* Font + Extension.swift */; };
 		18D76C062C29CBB200225BC5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D76C052C29CBB200225BC5 /* AppDelegate.swift */; };
 		18D76C082C29CBB200225BC5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D76C072C29CBB200225BC5 /* SceneDelegate.swift */; };
 		18D76C0F2C29CBB600225BC5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18D76C0E2C29CBB600225BC5 /* Assets.xcassets */; };
@@ -29,6 +35,12 @@
 		181CA2AF2C2AC90700FDE4BF /* UD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UD.swift; sourceTree = "<group>"; };
 		181CA2B22C2AC9CD00FDE4BF /* CustomSKButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSKButton.swift; sourceTree = "<group>"; };
 		181CA2B42C2ACA1A00FDE4BF /* Double + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double + Extension.swift"; sourceTree = "<group>"; };
+		1849858B2C2C1D31001E6104 /* StartVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartVC.swift; sourceTree = "<group>"; };
+		1849858D2C2C1D35001E6104 /* StartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
+		184985902C2C1F56001E6104 /* SquadaOne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SquadaOne-Regular.ttf"; sourceTree = "<group>"; };
+		184985922C2C1F75001E6104 /* Inter-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Regular.ttf"; sourceTree = "<group>"; };
+		184985932C2C1F75001E6104 /* Inter-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Light.ttf"; sourceTree = "<group>"; };
+		184985962C2C1F9E001E6104 /* Font + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font + Extension.swift"; sourceTree = "<group>"; };
 		18D76C022C29CBB200225BC5 /* colorMatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = colorMatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18D76C052C29CBB200225BC5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		18D76C072C29CBB200225BC5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -75,6 +87,16 @@
 				181CA2B22C2AC9CD00FDE4BF /* CustomSKButton.swift */,
 			);
 			path = Btn;
+			sourceTree = "<group>";
+		};
+		1849858F2C2C1F33001E6104 /* UIFont */ = {
+			isa = PBXGroup;
+			children = (
+				184985932C2C1F75001E6104 /* Inter-Light.ttf */,
+				184985922C2C1F75001E6104 /* Inter-Regular.ttf */,
+				184985902C2C1F56001E6104 /* SquadaOne-Regular.ttf */,
+			);
+			path = UIFont;
 			sourceTree = "<group>";
 		};
 		18D76BF92C29CBB200225BC5 = {
@@ -128,6 +150,8 @@
 			children = (
 				181CA2AF2C2AC90700FDE4BF /* UD.swift */,
 				181CA2B42C2ACA1A00FDE4BF /* Double + Extension.swift */,
+				184985962C2C1F9E001E6104 /* Font + Extension.swift */,
+				1849858F2C2C1F33001E6104 /* UIFont */,
 				181CA2AC2C2AC8BB00FDE4BF /* Settings */,
 				18D76C0E2C29CBB600225BC5 /* Assets.xcassets */,
 			);
@@ -137,6 +161,8 @@
 		18D76C1C2C29CC1900225BC5 /* StartGame */ = {
 			isa = PBXGroup;
 			children = (
+				1849858B2C2C1D31001E6104 /* StartVC.swift */,
+				1849858D2C2C1D35001E6104 /* StartView.swift */,
 			);
 			path = StartGame;
 			sourceTree = "<group>";
@@ -215,7 +241,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				184985952C2C1F75001E6104 /* Inter-Light.ttf in Resources */,
 				18D76C0F2C29CBB600225BC5 /* Assets.xcassets in Resources */,
+				184985912C2C1F56001E6104 /* SquadaOne-Regular.ttf in Resources */,
+				184985942C2C1F75001E6104 /* Inter-Regular.ttf in Resources */,
 				18D76C122C29CBB600225BC5 /* Base in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -230,11 +259,14 @@
 				181CA2B52C2ACA1A00FDE4BF /* Double + Extension.swift in Sources */,
 				181CA2AB2C2AC5DE00FDE4BF /* GameScene.swift in Sources */,
 				18D76C1F2C29CC3700225BC5 /* HomeVC.swift in Sources */,
+				1849858E2C2C1D35001E6104 /* StartView.swift in Sources */,
+				184985972C2C1F9E001E6104 /* Font + Extension.swift in Sources */,
 				181CA2B32C2AC9CD00FDE4BF /* CustomSKButton.swift in Sources */,
 				18D76C062C29CBB200225BC5 /* AppDelegate.swift in Sources */,
 				18D76C212C29CC3B00225BC5 /* HomeView.swift in Sources */,
 				181CA2B02C2AC90700FDE4BF /* UD.swift in Sources */,
 				181CA2AE2C2AC8C600FDE4BF /* Settings.swift in Sources */,
+				1849858C2C2C1D31001E6104 /* StartVC.swift in Sources */,
 				181CA2A92C2AC5D800FDE4BF /* GameVC.swift in Sources */,
 				18D76C082C29CBB200225BC5 /* SceneDelegate.swift in Sources */,
 			);

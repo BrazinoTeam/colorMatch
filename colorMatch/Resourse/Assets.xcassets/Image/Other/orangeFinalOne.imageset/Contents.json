@@ -1,8 +1,19 @@
 {
   "images" : [
     {
-      "filename" : "Frame 66.pdf",
-      "idiom" : "universal"
+      "filename" : "Group 1 (3).png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "Group 1 (4).png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "Group 1 (5).png",
+      "idiom" : "universal",
+      "scale" : "3x"
     }
   ],
   "info" : {
