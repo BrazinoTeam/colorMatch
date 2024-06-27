@@ -52,8 +52,26 @@ class HomeView: UIView {
         return label
     }()
     
+    private lazy var dateLabel: UILabel = {
+        let label = UILabel()
+        label.text = "20"
+        label.textColor = .white
+        label.textAlignment = .center
+        label.font = .customFont(font: .squadaOne, style: .regular, size: 24)
+        return label
+    }()
+    
     private lazy var gamesPlayedLabel: UILabel = {
         let label = UILabel.createLabel(withText: "Games played", font: .customFont(font: .inter, style: .light, size: 12), textColor: .white, paragraphSpacing: 1, lineHeightMultiple: 0.99)
+        return label
+    }()
+    
+    private(set) lazy var playedLabel: UILabel = {
+        let label = UILabel()
+        label.text = "\(UD.shared.scorePlayed)"
+        label.textColor = .white
+        label.textAlignment = .center
+        label.font = .customFont(font: .squadaOne, style: .regular, size: 24)
         return label
     }()
     
@@ -62,6 +80,15 @@ class HomeView: UIView {
         return label
     }()
     
+    
+    private(set) lazy var bonusesLabel: UILabel = {
+        let label = UILabel()
+        label.text = "\(UD.shared.scoreBonuses)"
+        label.textColor = .white
+        label.textAlignment = .center
+        label.font = .customFont(font: .squadaOne, style: .regular, size: 24)
+        return label
+    }()
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel.createLabel(withText: "TOTAL POINTS", font: .customFont(font: .inter, style: .light, size: 14), textColor: .white, paragraphSpacing: 1, lineHeightMultiple: 0.99)
@@ -126,9 +153,9 @@ class HomeView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        displayFirstLaunchDate()
         setupUI()
         setUpConstraints()
-        
     }
     
     required init?(coder: NSCoder) {
@@ -140,11 +167,15 @@ class HomeView: UIView {
         containerInfo.addSubview(imgUser)
         containerInfo.addSubview(nameLabel)
         containerInfo.addSubview(sinceLabel)
+        containerInfo.addSubview(dateLabel)
         containerInfo.addSubview(lineLeftView)
         containerInfo.addSubview(lineRightView)
 
         containerInfo.addSubview(bonusLabel)
+        containerInfo.addSubview(bonusesLabel)
+
         containerInfo.addSubview(gamesPlayedLabel)
+        containerInfo.addSubview(playedLabel)
 
 
     }
@@ -176,6 +207,11 @@ class HomeView: UIView {
             make.top.equalTo(imgUser.snp.bottom).offset(18)
         }
         
+        dateLabel.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(sinceLabel.snp.bottom).offset(8)
+        }
+        
         lineLeftView.snp.makeConstraints { (make) in
             make.right.equalTo(sinceLabel.snp.left).offset(-20)
             make.top.equalTo(imgUser.snp.bottom).offset(18)
@@ -195,9 +231,19 @@ class HomeView: UIView {
             make.top.equalTo(imgUser.snp.bottom).offset(18)
         }
         
+        playedLabel.snp.makeConstraints { (make) in
+            make.centerX.equalTo(gamesPlayedLabel)
+            make.top.equalTo(gamesPlayedLabel.snp.bottom).offset(8)
+        }
+        
         bonusLabel.snp.makeConstraints { (make) in
             make.left.equalTo(lineRightView.snp.right).offset(6)
             make.top.equalTo(imgUser.snp.bottom).offset(18)
+        }
+        
+        bonusesLabel.snp.makeConstraints { (make) in
+            make.centerX.equalTo(bonusLabel)
+            make.top.equalTo(bonusLabel.snp.bottom).offset(8)
         }
         
         titleLabel.snp.makeConstraints { (make) in
@@ -241,6 +287,14 @@ class HomeView: UIView {
         
         settingBtn.snp.makeConstraints { (make) in
             make.width.equalTo(68)
+        }
+    }
+    
+    private func displayFirstLaunchDate() {
+        if let firstLaunchDate = UD.shared.firstLaunchDate {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "dd.MM.yy"
+            dateLabel.text = dateFormatter.string(from: firstLaunchDate)
         }
     }
 }

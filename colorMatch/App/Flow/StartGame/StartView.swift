@@ -18,6 +18,12 @@ class StartView: UIView {
         return label
     }()
     
+    private(set) lazy var spinner: CustomSpinnerSimple = {
+            let spinner = CustomSpinnerSimple(squareLength: 93)
+            spinner.spinnerColor = .gray
+            return spinner
+        }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -30,7 +36,7 @@ class StartView: UIView {
     }
     
     private func setupUI() {
-        [backImage, titleLabel] .forEach(addSubview(_:))
+        [backImage, titleLabel, spinner] .forEach(addSubview(_:))
     }
     
     private func setUpConstraints(){
@@ -41,9 +47,14 @@ class StartView: UIView {
         
         titleLabel.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).offset(-100)
+            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).offset(-184)
             }
         
+        spinner.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(titleLabel.snp.bottom).offset(20)
+            make.size.equalTo(93)
+            }
         }
     }
 

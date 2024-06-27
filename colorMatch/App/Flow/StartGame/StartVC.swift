@@ -13,13 +13,15 @@ final class StartVC: UIViewController {
     }
     
     override func loadView() {
-        view = HomeView()
+        view = StartView()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        contentView.spinner.startAnimation(delay: 0.04, replicates: 18)
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
                   self.loadHomeVC()
+            self.contentView.spinner.stopAnimation()
               }
     }
 

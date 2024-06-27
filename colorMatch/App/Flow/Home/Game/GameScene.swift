@@ -29,6 +29,8 @@ class GameScene: SKScene {
         private var containerBall: SKSpriteNode!
         private var count = 25
     
+    private var checkCount = 0
+
         private let storage = UD.shared
         private var bingoItems: [bingo] = []
         private var bingoItemsAppend: [bingo] = []
@@ -140,6 +142,7 @@ class GameScene: SKScene {
                    node.removeFromParent()
                }
            }
+           
        }
        
     @objc private func createBall() {
@@ -200,9 +203,9 @@ class GameScene: SKScene {
 
         children.compactMap { $0 as? SKShapeNode }.forEach { shapeNode in
             if shapeNode.name == "ball" && shapeNode !== children.last {
-                let scaleAction = SKAction.scale(to: 20/30, duration: 0.3) // Уменьшаем до радиуса 20
+                let scaleAction = SKAction.scale(to: 20/30, duration: 0.4) // Уменьшаем до радиуса 20
                 let moveAction = SKAction.moveBy(x: newBallWidth + spacing, y: 0, duration: 0.3) // Перемещаем на ширину нового шара плюс отступ
-                let alphaAction = SKAction.fadeAlpha(to: 0.4, duration: 0.3) // Уменьшаем альфа-канал до 0.4
+                let alphaAction = SKAction.fadeAlpha(to: 0.4, duration: 0.4) // Уменьшаем альфа-канал до 0.4
                 let groupAction = SKAction.group([scaleAction, moveAction, alphaAction])
                 shapeNode.run(groupAction)
 
@@ -308,46 +311,61 @@ class GameScene: SKScene {
         }
 
         if let name = nodeName, let item = bingoItemsAppend.first(where: { $0.name == name }) {
-            parentNode?.alpha = 0.1
-            count -= 1
-            print("Элемент \(name) найден и скрыт")
-            bingoItemsBallTapped.append(item)
-            print("Tapped содержит: \(bingoItemsBallTapped.map { $0.name })")
-
+            if parentNode?.alpha == 1.0 {
+                parentNode?.alpha = 0.1
+                count -= 1
+                print("count -- \(count)")
+                print("Элемент \(name) найден и скрыт")
+                bingoItemsBallTapped.append(item)
+                print("Tapped содержит: \(bingoItemsBallTapped.map { $0.name })")
+            } else {
+                print("Элемент \(name) уже скрыт")
+            }
         } else {
             print("Неправильный элемент")
         }
         checkForWinningCombination()
-      
     }
 
+
+    
     private func checkForWinningCombination() {
-        let redItemsTappedCount = bingoItemsBallTapped.filter { $0.color == .cRed }.count
-        if redItemsTappedCount == 5 {
+        let redRequired = ["Red_58", "Red_27", "Red_56", "Red_84", "Red_45"]
+        let redItemsTappedNames = bingoItemsBallTapped.filter { $0.color == .cRed }.map { $0.name }
+        
+        let orangeRequired = ["Orange_34", "Orange_18", "Orange_14", "Orange_66", "Orange_25"]
+        let orangeItemsTappedNames = bingoItemsBallTapped.filter { $0.color == .cYellow }.map { $0.name }
+
+        let greenRequired = ["Green_46", "Green_84", "Green_8", "Green_10", "Green_77"]
+        let greenItemsTappedNames = bingoItemsBallTapped.filter { $0.color == .cGreen }.map { $0.name }
+
+        let blueRequired = ["Blue_36", "Blue_25", "Blue_90", "Blue_28", "Blue_18"]
+        let blueItemsTappedNames = bingoItemsBallTapped.filter { $0.color == .cBlue }.map { $0.name }
+
+        let pinkRequired = ["SystemPink_33", "SystemPink_78", "SystemPink_55", "SystemPink_19", "SystemPink_91"]
+        let pinkItemsTappedNames = bingoItemsBallTapped.filter { $0.color == .cPurple }.map { $0.name }
+
+        if redRequired.allSatisfy(redItemsTappedNames.contains) {
             moveBall(ball: redBall, to: redFinal.position, finalNode: redFinal, finalImageName: "redFinalOne")
             redFinal.position = CGPoint(x: 75, y: size.height / 2 - 285)
         }
-
-        let orangeItemsTappedCount = bingoItemsBallTapped.filter { $0.color == .cYellow }.count
-        if orangeItemsTappedCount == 5 {
+        
+        if orangeRequired.allSatisfy(orangeItemsTappedNames.contains) {
             moveBall(ball: orangeBall, to: orangeFinal.position, finalNode: orangeFinal, finalImageName: "orangeFinalOne")
             orangeFinal.position = CGPoint(x: 135, y: size.height / 2 - 285)
         }
 
-        let greenItemsTappedCount = bingoItemsBallTapped.filter { $0.color == .cGreen }.count
-        if greenItemsTappedCount == 5 {
+        if greenRequired.allSatisfy(greenItemsTappedNames.contains) {
             moveBall(ball: greenBall, to: greenFinal.position, finalNode: greenFinal, finalImageName: "greenFinalOne")
             greenFinal.position = CGPoint(x: 195, y: size.height / 2 - 285)
         }
 
-        let blueItemsTappedCount = bingoItemsBallTapped.filter { $0.color == .cBlue }.count
-        if blueItemsTappedCount == 5 {
+        if blueRequired.allSatisfy(blueItemsTappedNames.contains) {
             moveBall(ball: blueBall, to: blueFinal.position, finalNode: blueFinal, finalImageName: "blueFinalOne")
             blueFinal.position = CGPoint(x: 255, y: size.height / 2 - 285)
         }
 
-        let pinkItemsTappedCount = bingoItemsBallTapped.filter { $0.color == .cPurple }.count
-        if pinkItemsTappedCount == 5 {
+        if pinkRequired.allSatisfy(pinkItemsTappedNames.contains) {
             moveBall(ball: pinkBall, to: pinkFinal.position, finalNode: pinkFinal, finalImageName: "pinkFinalOne")
             pinkFinal.position = CGPoint(x: 315, y: size.height / 2 - 285)
         }
@@ -473,6 +491,7 @@ extension GameScene {
     
     private func showGameOverViewScore() {
         storage.scoreCoints += 500
+        storage.scorePlayed += 1
         let gameOverNode = SKSpriteNode(color: .black.withAlphaComponent(0.6), size: self.size)
         gameOverNode.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
         gameOverNode.zPosition = 100
@@ -534,7 +553,7 @@ extension GameScene {
     }
     
     private func showGameOverLose() {
-        
+        storage.scorePlayed += 1
         let gameOverNode = SKSpriteNode(color: .black.withAlphaComponent(0.6), size: self.size)
         gameOverNode.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
         gameOverNode.zPosition = 100

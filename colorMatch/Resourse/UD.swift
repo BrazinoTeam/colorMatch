@@ -10,10 +10,28 @@ class UD {
     
     var scoreCoints: Int {
         get {
-            return defaults.integer(forKey: "scoreCoints", defaultValue: 100)
+            return defaults.integer(forKey: "scoreCoints", defaultValue: 0)
         }
         set {
             defaults.set(newValue, forKey: "scoreCoints")
+        }
+    }
+    
+    var scorePlayed: Int {
+        get {
+            return defaults.integer(forKey: "scorePlayed", defaultValue: 0)
+        }
+        set {
+            defaults.set(newValue, forKey: "scorePlayed")
+        }
+    }
+    
+    var scoreBonuses: Int {
+        get {
+            return defaults.integer(forKey: "scoreBonuses", defaultValue: 0)
+        }
+        set {
+            defaults.set(newValue, forKey: "scoreBonuses")
         }
     }
     
@@ -32,6 +50,15 @@ class UD {
         }
         set {
             defaults.set(newValue, forKey: "lastBonusDate")
+        }
+    }
+    
+    var firstLaunchDate: Date? {
+        get {
+            return defaults.object(forKey: "firstLaunchDate") as? Date
+        }
+        set {
+            defaults.set(newValue, forKey: "firstLaunchDate")
         }
     }
     
