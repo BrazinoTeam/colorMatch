@@ -35,12 +35,48 @@ class UD {
         }
     }
     
-    var bonusMaster: Bool {
+    var beginner: Bool {
         get {
-            return defaults.bool(forKey: "bonusMaster")
+            return defaults.bool(forKey: "beginner")
         }
         set {
-            defaults.set(newValue, forKey: "bonusMaster")
+            defaults.set(newValue, forKey: "beginner")
+        }
+    }
+    
+    var sharpshooter: Bool {
+        get {
+            return defaults.bool(forKey: "sharpshooter")
+        }
+        set {
+            defaults.set(newValue, forKey: "sharpshooter")
+        }
+    }
+    
+    var collectingCombo: Bool {
+        get {
+            return defaults.bool(forKey: "collectingCombo")
+        }
+        set {
+            defaults.set(newValue, forKey: "collectingCombo")
+        }
+    }
+    
+    var dedicated: Bool {
+        get {
+            return defaults.bool(forKey: "dedicated")
+        }
+        set {
+            defaults.set(newValue, forKey: "dedicated")
+        }
+    }
+    
+    var pointGiant: Bool {
+        get {
+            return defaults.bool(forKey: "pointGiant")
+        }
+        set {
+            defaults.set(newValue, forKey: "pointGiant")
         }
     }
     

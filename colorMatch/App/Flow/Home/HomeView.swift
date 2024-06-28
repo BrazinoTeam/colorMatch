@@ -109,37 +109,67 @@ class HomeView: UIView {
     
     private(set) lazy var leadBtn: UIButton = {
         let btn = UIButton()
-        btn.setImage(.btnLead, for: .normal)
+        btn.setImage(.btnLeadTapped, for: .normal)
         btn.setImage(.btnLeadTapped, for: .highlighted)
         return btn
     }()
     
+    private(set) lazy var imgBallLead: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = .imgBtnBall
+        return imageView
+    }()
+    
     private(set) lazy var infoBtn: UIButton = {
         let btn = UIButton()
-        btn.setImage(.btnInfo, for: .normal)
+        btn.setImage(.btnInfoTapped, for: .normal)
         btn.setImage(.btnInfoTapped, for: .highlighted)
         return btn
     }()
     
+    private(set) lazy var imgBallInfo: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = .imgBtnBall
+        return imageView
+    }()
+    
     private(set) lazy var profileBtn: UIButton = {
         let btn = UIButton()
-        btn.setImage(.btnProfile, for: .normal)
+        btn.setImage(.btnProfileTapped, for: .normal)
         btn.setImage(.btnProfileTapped, for: .highlighted)
         return btn
     }()
     
+    private(set) lazy var imgBallProfile: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = .imgBtnBall
+        return imageView
+    }()
+    
     private(set) lazy var bonusBtn: UIButton = {
         let btn = UIButton()
-        btn.setImage(.btnBonus, for: .normal)
+        btn.setImage(.btnBonusTapped, for: .normal)
         btn.setImage(.btnBonusTapped, for: .highlighted)
         return btn
     }()
     
+    private(set) lazy var imgBallBonus: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = .imgBtnBall
+        return imageView
+    }()
+    
     private(set) lazy var settingBtn: UIButton = {
         let btn = UIButton()
-        btn.setImage(.btnSettings, for: .normal)
+        btn.setImage(.btnSettingsTapped, for: .normal)
         btn.setImage(.btnSettingsTapped, for: .highlighted)
         return btn
+    }()
+
+    private(set) lazy var imgBallSettings: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = .imgBtnBall
+        return imageView
     }()
 
     private lazy var buttonStack: UIStackView = {
@@ -162,6 +192,10 @@ class HomeView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func getImgBallLead() -> UIImageView {
+           return imgBallLead
+       }
+    
     private func setupUI() {
         [backImage, subTitleLabel, containerInfo, titleLabel, playBtn, buttonStack] .forEach(addSubview(_:))
         containerInfo.addSubview(imgUser)
@@ -176,6 +210,12 @@ class HomeView: UIView {
 
         containerInfo.addSubview(gamesPlayedLabel)
         containerInfo.addSubview(playedLabel)
+
+        leadBtn.addSubview(imgBallLead)
+        infoBtn.addSubview(imgBallInfo)
+        profileBtn.addSubview(imgBallProfile)
+        bonusBtn.addSubview(imgBallBonus)
+        settingBtn.addSubview(imgBallSettings)
 
 
     }
@@ -265,8 +305,8 @@ class HomeView: UIView {
         
         buttonStack.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview()
-            make.height.equalTo(180)
+            make.bottom.equalToSuperview().offset(10)
+            make.height.equalTo(190)
         }
         
         leadBtn.snp.makeConstraints { (make) in
@@ -287,6 +327,31 @@ class HomeView: UIView {
         
         settingBtn.snp.makeConstraints { (make) in
             make.width.equalTo(68)
+        }
+        
+        imgBallLead.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.top.equalToSuperview().offset(12)
+        }
+        
+        imgBallInfo.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.top.equalToSuperview().offset(12)
+        }
+        
+        imgBallProfile.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.top.equalToSuperview().offset(12)
+        }
+        
+        imgBallBonus.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.top.equalToSuperview().offset(12)
+        }
+        
+        imgBallSettings.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.top.equalToSuperview().offset(12)
         }
     }
     
