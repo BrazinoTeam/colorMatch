@@ -33,6 +33,9 @@ final class ProfileVC: UIViewController {
     }
     
     private func checkAchiv() {
+        if UD.shared.scoreCoints >= 10000 {
+            UD.shared.pointGiant = true
+        }
         if UD.shared.beginner {
                 contentView.achiOne.achiImage.image = .imgAchiOne
             } else {
@@ -44,16 +47,16 @@ final class ProfileVC: UIViewController {
                 }
             }
         
-        if UD.shared.sharpshooter {
-                contentView.achiTwo.achiImage.image = .imgAchiTwo
-            } else {
-                contentView.achiTwo.achiImage.image = .imgAchiTwoLock
-                if let originalImage = contentView.achiTwo.achiImage.image {
-                    if let blurredImage = originalImage.applyBlurEffect(radius: 8, intensity: -0.7) {
-                        contentView.achiTwo.achiImage.image = blurredImage
-                    }
-                }
-            }
+//        if UD.shared.sharpshooter {
+//                contentView.achiTwo.achiImage.image = .imgAchiTwo
+//            } else {
+//                contentView.achiTwo.achiImage.image = .imgAchiTwoLock
+//                if let originalImage = contentView.achiTwo.achiImage.image {
+//                    if let blurredImage = originalImage.applyBlurEffect(radius: 8, intensity: -0.7) {
+//                        contentView.achiTwo.achiImage.image = blurredImage
+//                    }
+//                }
+//            }
         
         if UD.shared.collectingCombo {
                 contentView.achiThree.achiImage.image = .imgAchiThree

@@ -10,6 +10,7 @@ class StartView: UIView {
     private lazy var backImage: UIImageView = {
         let imageView = UIImageView()
         imageView.image = .bgLoading
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     

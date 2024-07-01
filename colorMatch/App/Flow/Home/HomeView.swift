@@ -96,7 +96,8 @@ class HomeView: UIView {
     }()
     
     private(set) lazy var subTitleLabel: UILabel = {
-        let label = UILabel.createLabel(withText: "\(UD.shared.scoreCoints)", font: .customFont(font: .squadaOne, style: .regular, size: 60), textColor: .cYellow, paragraphSpacing: 1, lineHeightMultiple: 0.76)
+        let formattedScore = formatNumber(UD.shared.scoreCoints) ?? "\(UD.shared.scoreCoints)"
+        let label = UILabel.createLabel(withText: formattedScore, font: .customFont(font: .squadaOne, style: .regular, size: 60), textColor: .cYellow, paragraphSpacing: 1, lineHeightMultiple: 0.76)
         return label
     }()
     
@@ -192,6 +193,13 @@ class HomeView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func formatNumber(_ number: Int) -> String? {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        numberFormatter.groupingSeparator = ","
+        return numberFormatter.string(from: NSNumber(value: number))
+    }
+    
     func getImgBallLead() -> UIImageView {
            return imgBallLead
        }
@@ -227,29 +235,30 @@ class HomeView: UIView {
         }
         
         containerInfo.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(64)
+            make.top.equalToSuperview().offset(64.autoSize)
             make.left.right.equalToSuperview().inset(20)
-            make.height.equalTo(183)
+            make.height.equalTo(183.autoSize)
         }
         
         imgUser.snp.makeConstraints { (make) in
             make.left.equalToSuperview().offset(12)
             make.top.equalToSuperview().offset(20)
+            make.size.equalTo(80.autoSize)
         }
         
         nameLabel.snp.makeConstraints { (make) in
             make.centerY.equalTo(imgUser)
-            make.left.equalTo(imgUser.snp.right).offset(12)
+            make.left.equalTo(imgUser.snp.right).offset(12.autoSize)
         }
         
         sinceLabel.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
-            make.top.equalTo(imgUser.snp.bottom).offset(18)
+            make.top.equalTo(imgUser.snp.bottom).offset(18.autoSize)
         }
         
         dateLabel.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
-            make.top.equalTo(sinceLabel.snp.bottom).offset(8)
+            make.top.equalTo(sinceLabel.snp.bottom).offset(8.autoSize)
         }
         
         lineLeftView.snp.makeConstraints { (make) in
@@ -267,27 +276,27 @@ class HomeView: UIView {
         }
         
         gamesPlayedLabel.snp.makeConstraints { (make) in
-            make.right.equalTo(lineLeftView.snp.left).offset(-15)
-            make.top.equalTo(imgUser.snp.bottom).offset(18)
+            make.right.equalTo(lineLeftView.snp.left).offset(-15.autoSize)
+            make.top.equalTo(imgUser.snp.bottom).offset(18.autoSize)
         }
         
         playedLabel.snp.makeConstraints { (make) in
             make.centerX.equalTo(gamesPlayedLabel)
-            make.top.equalTo(gamesPlayedLabel.snp.bottom).offset(8)
+            make.top.equalTo(gamesPlayedLabel.snp.bottom).offset(8.autoSize)
         }
         
         bonusLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(lineRightView.snp.right).offset(6)
-            make.top.equalTo(imgUser.snp.bottom).offset(18)
+            make.left.equalTo(lineRightView.snp.right).offset(6.autoSize)
+            make.top.equalTo(imgUser.snp.bottom).offset(18.autoSize)
         }
         
         bonusesLabel.snp.makeConstraints { (make) in
             make.centerX.equalTo(bonusLabel)
-            make.top.equalTo(bonusLabel.snp.bottom).offset(8)
+            make.top.equalTo(bonusLabel.snp.bottom).offset(8.autoSize)
         }
         
         titleLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(containerInfo.snp.bottom).offset(46)
+            make.top.equalTo(containerInfo.snp.bottom).offset(40.autoSize)
             make.centerX.equalToSuperview()
         }
         
@@ -300,7 +309,7 @@ class HomeView: UIView {
         playBtn.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview().offset(60)
-            make.size.equalTo(388)
+            make.size.equalTo(388.autoSize)
         }
         
         buttonStack.snp.makeConstraints { (make) in

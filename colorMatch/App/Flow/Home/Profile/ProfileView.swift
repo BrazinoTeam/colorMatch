@@ -217,7 +217,7 @@ class ProfileView: UIView, UITextFieldDelegate {
         scrollView.addSubview(contentView)
         
         contentView.addArrangedSubview(achiOne)
-        contentView.addArrangedSubview(achiTwo)
+//        contentView.addArrangedSubview(achiTwo)
         contentView.addArrangedSubview(achiThree)
         contentView.addArrangedSubview(achiFour)
         contentView.addArrangedSubview(achiFive)
@@ -330,9 +330,9 @@ class ProfileView: UIView, UITextFieldDelegate {
             make.left.right.equalToSuperview().inset(20)
         }
         
-        achiTwo.snp.makeConstraints { (make) in
-            make.left.right.equalToSuperview().inset(20)
-        }
+//        achiTwo.snp.makeConstraints { (make) in
+//            make.left.right.equalToSuperview().inset(20)
+//        }
         
         achiThree.snp.makeConstraints { (make) in
             make.left.right.equalToSuperview().inset(20)

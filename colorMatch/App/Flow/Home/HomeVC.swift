@@ -32,7 +32,8 @@ final class HomeVC: UIViewController, MFMailComposeViewControllerDelegate {
     }
     
     private func updateCoints() {
-        contentView.subTitleLabel.text = "\(UD.shared.scoreCoints)"
+        let formattedScore = contentView.formatNumber(UD.shared.scoreCoints) ?? "\(UD.shared.scoreCoints)"
+        contentView.subTitleLabel.text = formattedScore
         contentView.bonusesLabel.text = "\(UD.shared.scoreBonuses)"
         contentView.playedLabel.text = "\(UD.shared.scorePlayed)"
     }

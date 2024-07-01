@@ -67,18 +67,18 @@ class GameScene: SKScene {
     override func didMove(to view: SKView) {
         addSettingsScene()
         setupGameSubviews()
-        initializeBingoItems() // Инициализация массива при запуске сцены
-        createBingoSquares() // Создание квадратов на основании массива
-        setupTimerLabel() // Настройка метки таймера
-        setupProgressCircle() // Настройка кругового прогресс-бара
-        startTimers() // Запуск таймеров
+        initializeBingoItems()
+        createBingoSquares()
+        setupTimerLabel()
+        setupProgressCircle()
+        startTimers()
     }
 
-    private func startTimers() {
-           createBallTimer = Timer.scheduledTimer(timeInterval: 4.0, target: self, selector: #selector(createBall), userInfo: nil, repeats: true)
-           timerUpdate = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
-       }
        
+    private func startTimers() {
+        createBallTimer = Timer.scheduledTimer(timeInterval: 4.0, target: self, selector: #selector(createBall), userInfo: nil, repeats: true)
+        timerUpdate = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+    }
        private func setupTimerLabel() {
            timerLabel = SKLabelNode(text: "\(remainingTime)")
            timerLabel.fontName = "SquadaOne-Regular"
@@ -103,48 +103,43 @@ class GameScene: SKScene {
            addChild(progressCircle)
        }
 
-       @objc private func updateTimer() {
-           guard !bingoItems.isEmpty else {
-               timerUpdate?.invalidate()
-               timerUpdate = nil
-               print("Нет элементов")
-               return
-           }
-           
-           remainingTime -= 1
-           timerLabel.text = "\(remainingTime)"
-           
-           if remainingTime >= 0 {
-               let angle = CGFloat(Double.pi / 2 * Double(4 - remainingTime))
-               let path = UIBezierPath(arcCenter: CGPoint.zero, radius: 20, startAngle: currentAngle - CGFloat(Double.pi / 2), endAngle: currentAngle - CGFloat(Double.pi / 2) + CGFloat(Double.pi / 2), clockwise: true)
-               path.addLine(to: CGPoint.zero)
-               path.close()
-               
-               let sector = SKShapeNode(path: path.cgPath)
-               sector.fillColor = .cLight
-               sector.strokeColor = .clear
-               sector.position = CGPoint(x: greenSprite.frame.minX + 60, y: greenSprite.frame.midY)
-               sector.zPosition = 21
-               sector.name = "sector"
-               
-               addChild(sector)
-               
-               currentAngle += CGFloat(Double.pi / 2)
-           }
-           
-           if remainingTime <= 0 {
-               remainingTime = 4 // Сброс времени на 4 секунды или нужное вам значение
-               timerLabel.text = "\(remainingTime)"
-               currentAngle = 0 // Сброс угла
-               
-               // Очистка старых секторов
-               self.enumerateChildNodes(withName: "sector") { (node, stop) in
-                   node.removeFromParent()
-               }
-           }
-           
-       }
-       
+    @objc private func updateTimer() {
+        guard !bingoItems.isEmpty else {
+            timerUpdate?.invalidate()
+            timerUpdate = nil
+            print("Нет элементов")
+            return
+        }
+        
+        if remainingTime <= 0 {
+            remainingTime = 40
+            currentAngle = 0
+            self.enumerateChildNodes(withName: "sector") { (node, stop) in
+                node.removeFromParent()
+            }
+        }
+        
+        remainingTime -= 1
+        timerLabel.text = "\(remainingTime / 10)" // Обновляем текст метки
+        
+        let angleIncrement = CGFloat(Double.pi / 20) // Угол для 9 градусов
+        
+        let path = UIBezierPath(arcCenter: CGPoint.zero, radius: 20, startAngle: currentAngle - CGFloat(Double.pi / 2), endAngle: currentAngle - CGFloat(Double.pi / 2) + angleIncrement, clockwise: true)
+        path.addLine(to: CGPoint.zero)
+        path.close()
+        
+        let sector = SKShapeNode(path: path.cgPath)
+        sector.fillColor = .cLight
+        sector.strokeColor = .clear
+        sector.position = CGPoint(x: greenSprite.frame.minX + 60, y: greenSprite.frame.midY)
+        sector.zPosition = 21
+        sector.name = "sector"
+        
+        addChild(sector)
+        
+        currentAngle += angleIncrement
+    }
+    
     @objc private func createBall() {
         guard !bingoItems.isEmpty else {
             if count == 0 {
@@ -179,7 +174,7 @@ class GameScene: SKScene {
         ball.name = "ball"
         ball.fillColor = item.color
         ball.strokeColor = .clear
-        ball.position = CGPoint(x: greenSprite.position.x - 70, y: greenSprite.position.y)
+        ball.position = CGPoint(x: greenSprite.position.x - 70.autoSize, y: greenSprite.position.y)
         ball.zPosition = 12
         addChild(ball)
 
@@ -219,7 +214,6 @@ class GameScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
          super.update(currentTime)
-         // Проверяем шары на выход за пределы containerBall
          for child in children {
              if let shapeNode = child as? SKShapeNode, shapeNode.name == "ball" {
                  if shapeNode.position.x > containerBall.frame.maxX {
@@ -313,6 +307,7 @@ class GameScene: SKScene {
         if let name = nodeName, let item = bingoItemsAppend.first(where: { $0.name == name }) {
             if parentNode?.alpha == 1.0 {
                 parentNode?.alpha = 0.1
+                UD.shared.beginner = true
                 count -= 1
                 print("count -- \(count)")
                 print("Элемент \(name) найден и скрыт")
@@ -330,6 +325,8 @@ class GameScene: SKScene {
 
     
     private func checkForWinningCombination() {
+        let isTallScreen = size.height >= 852
+
         let redRequired = ["Red_58", "Red_27", "Red_56", "Red_84", "Red_45"]
         let redItemsTappedNames = bingoItemsBallTapped.filter { $0.color == .cRed }.map { $0.name }
         
@@ -347,27 +344,27 @@ class GameScene: SKScene {
 
         if redRequired.allSatisfy(redItemsTappedNames.contains) {
             moveBall(ball: redBall, to: redFinal.position, finalNode: redFinal, finalImageName: "redFinalOne")
-            redFinal.position = CGPoint(x: 75, y: size.height / 2 - 285)
+            redFinal.position = CGPoint(x: isTallScreen ? 75 : 70, y: size.height / 2 - 285)
         }
         
         if orangeRequired.allSatisfy(orangeItemsTappedNames.contains) {
             moveBall(ball: orangeBall, to: orangeFinal.position, finalNode: orangeFinal, finalImageName: "orangeFinalOne")
-            orangeFinal.position = CGPoint(x: 135, y: size.height / 2 - 285)
+            orangeFinal.position = CGPoint(x: isTallScreen ? 135 : 130, y: size.height / 2 - 285)
         }
 
         if greenRequired.allSatisfy(greenItemsTappedNames.contains) {
             moveBall(ball: greenBall, to: greenFinal.position, finalNode: greenFinal, finalImageName: "greenFinalOne")
-            greenFinal.position = CGPoint(x: 195, y: size.height / 2 - 285)
+            greenFinal.position = CGPoint(x: isTallScreen ? 195 : 190, y: size.height / 2 - 285)
         }
 
         if blueRequired.allSatisfy(blueItemsTappedNames.contains) {
             moveBall(ball: blueBall, to: blueFinal.position, finalNode: blueFinal, finalImageName: "blueFinalOne")
-            blueFinal.position = CGPoint(x: 255, y: size.height / 2 - 285)
+            blueFinal.position = CGPoint(x: isTallScreen ? 255 : 250, y: size.height / 2 - 285)
         }
 
         if pinkRequired.allSatisfy(pinkItemsTappedNames.contains) {
             moveBall(ball: pinkBall, to: pinkFinal.position, finalNode: pinkFinal, finalImageName: "pinkFinalOne")
-            pinkFinal.position = CGPoint(x: 315, y: size.height / 2 - 285)
+            pinkFinal.position = CGPoint(x: isTallScreen ? 315 : 310, y: size.height / 2 - 285)
         }
     }
     
@@ -415,73 +412,76 @@ class GameScene: SKScene {
         titleLabel.zPosition = 50
         addChild(titleLabel)
         
+        let isTallScreen = size.height >= 852
+
         redBall = SKSpriteNode(imageNamed: "ballRed")
         redBall.size = .init(width: 48, height: 48)
         redBall.anchorPoint = .init(x: 0, y: 1.0)
-        redBall.position = CGPoint(x: 54, y: size.height / 2 + 150)
+        redBall.position = CGPoint(x: isTallScreen ? 54 : 46, y: size.height / 2 + 150)
+
         redBall.zPosition = 50
         addChild(redBall)
 
         orangeBall = SKSpriteNode(imageNamed: "ballYellow")
         orangeBall.size = .init(width: 48, height: 48)
         orangeBall.anchorPoint = .init(x: 0, y: 1.0)
-        orangeBall.position = CGPoint(x: 114, y: size.height / 2 + 150)
+        orangeBall.position = CGPoint(x: isTallScreen ? 114 : 106, y: size.height / 2 + 150)
         orangeBall.zPosition = 50
         addChild(orangeBall)
         
         greenBall = SKSpriteNode(imageNamed: "ballGreen")
         greenBall.size = .init(width: 48, height: 48)
         greenBall.anchorPoint = .init(x: 0, y: 1.0)
-        greenBall.position = CGPoint(x: 174, y: size.height / 2 + 150)
+        greenBall.position = CGPoint(x: isTallScreen ? 174 : 166, y: size.height / 2 + 150)
         greenBall.zPosition = 50
         addChild(greenBall)
         
         blueBall = SKSpriteNode(imageNamed: "ballBlue")
         blueBall.size = .init(width: 48, height: 48)
         blueBall.anchorPoint = .init(x: 0, y: 1.0)
-        blueBall.position = CGPoint(x: 234, y: size.height / 2 + 150)
+        blueBall.position = CGPoint(x: isTallScreen ? 234 : 226, y: size.height / 2 + 150)
         blueBall.zPosition = 50
         addChild(blueBall)
         
         pinkBall = SKSpriteNode(imageNamed: "ballPurple")
         pinkBall.size = .init(width: 48, height: 48)
         pinkBall.anchorPoint = .init(x: 0, y: 1.0)
-        pinkBall.position = CGPoint(x: 294, y: size.height / 2 + 150)
+        pinkBall.position = CGPoint(x: isTallScreen ? 294 : 286, y: size.height / 2 + 150)
         pinkBall.zPosition = 50
         addChild(pinkBall)
         
         greenSprite = SKSpriteNode(color: .clear, size: CGSize(width: size.width, height: 48.autoSize))
-        greenSprite.position = CGPoint(x: size.width / 2, y: size.height - 190)
+        greenSprite.position = CGPoint(x: size.width / 2, y: size.height - 190.autoSize)
         greenSprite.zPosition = 10
         addChild(greenSprite)
         
         containerBall = SKSpriteNode(imageNamed: "containerBall")
-        containerBall.position = CGPoint(x: size.width / 2 + 46, y: size.height - 190)
+        containerBall.position = CGPoint(x: size.width / 2 + (isTallScreen ? 46 : 58), y: size.height - (isTallScreen ? 190 : 150))
         containerBall.zPosition = 11
         addChild(containerBall)
         
         redFinal = SKSpriteNode(imageNamed: "redFinal")
-        redFinal.position = CGPoint(x: 75, y: size.height / 2 - 290)
+        redFinal.position = CGPoint(x: isTallScreen ? 75 : 70, y: size.height / 2 - 290)
         redFinal.zPosition = 10
         addChild(redFinal)
 
         orangeFinal = SKSpriteNode(imageNamed: "orangeFinal")
-        orangeFinal.position = CGPoint(x: 135, y: size.height / 2 - 290)
+        orangeFinal.position = CGPoint(x: isTallScreen ? 135 : 130, y: size.height / 2 - 290)
         orangeFinal.zPosition = 10
         addChild(orangeFinal)
         
         greenFinal = SKSpriteNode(imageNamed: "greenFinal")
-        greenFinal.position = CGPoint(x: 195, y: size.height / 2 - 290)
+        greenFinal.position = CGPoint(x: isTallScreen ? 195 : 190, y: size.height / 2 - 290)
         greenFinal.zPosition = 10
         addChild(greenFinal)
         
         blueFinal = SKSpriteNode(imageNamed: "blueFinal")
-        blueFinal.position = CGPoint(x: 255, y: size.height / 2 - 290)
+        blueFinal.position = CGPoint(x: isTallScreen ? 255 : 250, y: size.height / 2 - 290)
         blueFinal.zPosition = 10
         addChild(blueFinal)
         
         pinkFinal = SKSpriteNode(imageNamed: "pinkFinal")
-        pinkFinal.position = CGPoint(x: 315, y: size.height / 2 - 290)
+        pinkFinal.position = CGPoint(x: isTallScreen ? 315 : 310, y: size.height / 2 - 290)
         pinkFinal.zPosition = 10
         addChild(pinkFinal)
     }
@@ -492,13 +492,14 @@ extension GameScene {
     private func showGameOverViewScore() {
         storage.scoreCoints += 500
         storage.scorePlayed += 1
+        storage.dedicated = true
         let gameOverNode = SKSpriteNode(color: .black.withAlphaComponent(0.6), size: self.size)
         gameOverNode.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
         gameOverNode.zPosition = 100
         gameOverNode.name = "gameOverNode"
         
         let square = SKSpriteNode(imageNamed: "contWinGame")
-        square.size = CGSize(width: 353.autoSize, height: 522.autoSize)
+        square.size = CGSize(width: 445.autoSize, height: 614.autoSize)
         square.position = CGPoint(x: 0, y: -20.autoSize)
         square.zPosition = 101
         gameOverNode.addChild(square)
@@ -560,7 +561,7 @@ extension GameScene {
         gameOverNode.name = "gameOverNode"
         
         let square = SKSpriteNode(imageNamed: "contLoseGame")
-        square.size = CGSize(width: 357.autoSize, height: 434.autoSize)
+        square.size = CGSize(width: 445.autoSize, height: 522.autoSize)
         square.position = CGPoint(x: 0, y: -20.autoSize)
         square.zPosition = 101
         gameOverNode.addChild(square)

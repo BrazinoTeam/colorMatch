@@ -53,6 +53,7 @@ class BonusView: UIView {
     private lazy var timeBackImage: UIImageView = {
         let imageView = UIImageView()
         imageView.image = .bgBonus
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     
@@ -136,6 +137,8 @@ class BonusView: UIView {
         imgCenter.snp.makeConstraints { (make) in
             make.top.equalTo(backBtn.snp.bottom).offset(-24)
             make.centerX.equalToSuperview()
+            make.width.equalTo(407.autoSize)
+            make.height.equalTo(716.autoSize)
         }
         
         goBonus.snp.makeConstraints { (make) in
@@ -162,12 +165,12 @@ class BonusView: UIView {
         }
         
         timeSubTitleLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(timeTitleLabel.snp.bottom).offset(45)
+            make.top.equalTo(timeTitleLabel.snp.bottom).offset(45.autoSize)
             make.centerX.equalToSuperview()
         }
         
         timeCountLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(timeSubTitleLabel.snp.bottom).offset(20)
+            make.top.equalTo(timeSubTitleLabel.snp.bottom).offset(20.autoSize)
             make.centerX.equalToSuperview()
         }
     }
