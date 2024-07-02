@@ -59,19 +59,19 @@ final class HomeVC: UIViewController, MFMailComposeViewControllerDelegate {
     
     private func removeBall() {
         self.contentView.imgBallLead.layer.removeAllAnimations()
-        self.contentView.imgBallLead.center = CGPoint(x: self.contentView.leadBtn.bounds.width / 2, y: self.contentView.leadBtn.bounds.height / 2 - 52)
+        self.contentView.imgBallLead.center = CGPoint(x: self.contentView.leadBtn.bounds.width / 2, y: self.contentView.leadBtn.bounds.height / 2 - 58)
         
         self.contentView.imgBallInfo.layer.removeAllAnimations()
-        self.contentView.imgBallInfo.center = CGPoint(x: self.contentView.infoBtn.bounds.width / 2, y: self.contentView.infoBtn.bounds.height / 2 - 52)
+        self.contentView.imgBallInfo.center = CGPoint(x: self.contentView.infoBtn.bounds.width / 2, y: self.contentView.infoBtn.bounds.height / 2 - 58)
 
         self.contentView.imgBallProfile.layer.removeAllAnimations()
-        self.contentView.imgBallProfile.center = CGPoint(x: self.contentView.profileBtn.bounds.width / 2, y: self.contentView.profileBtn.bounds.height / 2 - 52)
+        self.contentView.imgBallProfile.center = CGPoint(x: self.contentView.profileBtn.bounds.width / 2, y: self.contentView.profileBtn.bounds.height / 2 - 58)
 
         self.contentView.imgBallBonus.layer.removeAllAnimations()
-        self.contentView.imgBallBonus.center = CGPoint(x: self.contentView.bonusBtn.bounds.width / 2, y: self.contentView.bonusBtn.bounds.height / 2 - 52)
+        self.contentView.imgBallBonus.center = CGPoint(x: self.contentView.bonusBtn.bounds.width / 2, y: self.contentView.bonusBtn.bounds.height / 2 - 58)
 
         self.contentView.imgBallSettings.layer.removeAllAnimations()
-        self.contentView.imgBallSettings.center = CGPoint(x: self.contentView.settingBtn.bounds.width / 2, y: self.contentView.settingBtn.bounds.height / 2 - 52)
+        self.contentView.imgBallSettings.center = CGPoint(x: self.contentView.settingBtn.bounds.width / 2, y: self.contentView.settingBtn.bounds.height / 2 - 58)
 
     }
     

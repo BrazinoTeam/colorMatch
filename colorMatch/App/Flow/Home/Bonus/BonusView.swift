@@ -41,6 +41,10 @@ class BonusView: UIView {
         let btn = UIButton()
         btn.setImage(.btnGetBonus, for: .normal)
         btn.setImage(.btnGetBonusTapped, for: .highlighted)
+        btn.layer.shadowColor = UIColor.black.withAlphaComponent(0.4).cgColor
+        btn.layer.shadowOpacity = 1
+        btn.layer.shadowRadius = 4
+        btn.layer.shadowOffset = CGSize(width: 0, height: 4)
         return btn
     }()
     
