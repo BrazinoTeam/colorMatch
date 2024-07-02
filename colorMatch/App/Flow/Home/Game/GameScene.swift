@@ -24,19 +24,13 @@ class GameScene: SKScene {
     
         private var popupActive: Bool = false
         private var coints: Int = 0
-        private var dropButton = CustomSKButton(texture: SKTexture(imageNamed: "playBtn"))
-        private var greenSprite: SKSpriteNode!
-        private var containerBall: SKSpriteNode!
         private var count = 25
-    
-    private var checkCount = 0
-
+        private var dropButton = CustomSKButton(texture: SKTexture(imageNamed: "playBtn"))
         private let storage = UD.shared
         private var bingoItems: [bingo] = []
         private var bingoItemsAppend: [bingo] = []
         private var bingoItemsBall: [bingo] = []
         private var bingoItemsBallTapped: [bingo] = []
-
 
         private var createBallTimer: Timer?
         private var timerLabel: SKLabelNode!
@@ -47,6 +41,9 @@ class GameScene: SKScene {
         private var progressCircle: SKShapeNode!
         private var currentAngle: CGFloat = 0
     
+        private var greenSprite: SKSpriteNode!
+        private var containerBall: SKSpriteNode!
+
         private var redBall: SKSpriteNode!
         private var orangeBall: SKSpriteNode!
         private var greenBall: SKSpriteNode!
@@ -379,10 +376,6 @@ class GameScene: SKScene {
         ball.run(sequence)
     }
 
-    func updateCoinsBalance() {
-
-    }
-    
     private func setupBackground() {
         let hpNode = SKSpriteNode(imageNamed: "bgGame")
         hpNode.anchorPoint = .init(x: 0, y: 0)
@@ -586,6 +579,7 @@ extension GameScene {
     
     @objc private func backHomeAction() {
         guard popupActive == false else { return }
+        resultTransfer?(.updateScoreBackEnd)
         resultTransfer?(.gameBack)
         createBallTimer?.invalidate()
         createBallTimer = nil

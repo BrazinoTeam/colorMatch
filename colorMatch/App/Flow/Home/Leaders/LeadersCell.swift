@@ -7,10 +7,6 @@ import Foundation
 import UIKit
 import SnapKit
 
-struct Leader {
-    let name: String
-    let score: Int
-}
 
 class LeadersCell: UITableViewCell {
     
@@ -84,11 +80,7 @@ class LeadersCell: UITableViewCell {
         numberLabel.text = nil
     }
     
-    func configure(with leader: Leader, index: Int) {
-        nameLabel.text = leader.name
-        scoreLabel.text = "\(leader.score)"
-        numberLabel.text = "\(index)"
-    }
+   
     
     func setTopThreeAppearance() {
         backImg.image = .imgContLeadTopThree
@@ -108,6 +100,7 @@ class LeadersCell: UITableViewCell {
          userImage.snp.updateConstraints { (make) in
              make.size.equalTo(60)
          }
+    
      }
     
     private func setupUI() {

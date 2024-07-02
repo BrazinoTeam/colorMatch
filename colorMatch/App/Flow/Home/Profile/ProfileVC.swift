@@ -24,6 +24,7 @@ final class ProfileVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         checkAchiv()
+        checkFotoLoad()
     }
 
     
@@ -31,6 +32,12 @@ final class ProfileVC: UIViewController {
         imagePicker.delegate = self
         imagePicker.allowsEditing = false
     }
+    
+    private func checkFotoLoad() {
+           if let userID = UD.shared.userID, let savedImage = contentView.imgUser.getImageFromLocal(userID: String(userID)) {
+               contentView.imgUser.image = savedImage
+           }
+       }
     
     private func checkAchiv() {
         if UD.shared.scoreCoints >= 10000 {
@@ -46,18 +53,7 @@ final class ProfileVC: UIViewController {
                     }
                 }
             }
-        
-//        if UD.shared.sharpshooter {
-//                contentView.achiTwo.achiImage.image = .imgAchiTwo
-//            } else {
-//                contentView.achiTwo.achiImage.image = .imgAchiTwoLock
-//                if let originalImage = contentView.achiTwo.achiImage.image {
-//                    if let blurredImage = originalImage.applyBlurEffect(radius: 8, intensity: -0.7) {
-//                        contentView.achiTwo.achiImage.image = blurredImage
-//                    }
-//                }
-//            }
-        
+
         if UD.shared.collectingCombo {
                 contentView.achiThree.achiImage.image = .imgAchiThree
             } else {
@@ -261,40 +257,18 @@ final class ProfileVC: UIViewController {
 
 extension ProfileVC: UIImagePickerControllerDelegate {
     
-    func saveImageToLocal(image: UIImage) {
-        if let data = image.jpegData(compressionQuality: 1.0),
-            let id  = UD.shared.userID {
-            let fileURL = getDocumentsDirectory().appendingPathComponent("\(id).png")
-            try? data.write(to: fileURL)
-        }
-    }
-    
-    func getDocumentsDirectory() -> URL {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        return paths[0]
-    }
-    
-    func getImageFromLocal() -> UIImage? {
-        guard let id = UD.shared.userID else { return nil }
-        let fileURL = getDocumentsDirectory().appendingPathComponent("\(id).png")
-        do {
-            let data = try Data(contentsOf: fileURL)
-            return UIImage(data: data)
-        } catch {
-            print("Error loading image from local storage")
-            return nil
-        }
-    }
-    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[.originalImage] as? UIImage {
             contentView.imgUser.image = image
-            saveImageToLocal(image: image)
+            if let userID = UD.shared.userID {
+                contentView.imgUser.saveImageToLocal(image: image, userID: String(userID))
+            }
         }
         
         dismiss(animated: true, completion: nil)
     }
-  
+
+    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }
@@ -303,7 +277,6 @@ extension ProfileVC: UIImagePickerControllerDelegate {
 extension ProfileVC: UINavigationControllerDelegate {
     
 }
-
 
 extension UIImage {
     func applyBlurEffect(radius: Int, intensity: Float) -> UIImage? {
@@ -327,7 +300,6 @@ extension UIImage {
         
         let blurredImage = UIImage(cgImage: cgImage)
         
-        // Crop to original size
         UIGraphicsBeginImageContextWithOptions(size, false, scale)
         blurredImage.draw(in: CGRect(origin: .zero, size: size))
         let croppedImage = UIGraphicsGetImageFromCurrentImageContext()

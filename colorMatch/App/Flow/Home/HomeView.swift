@@ -23,14 +23,15 @@ class HomeView: UIView {
         return imageView
     }()
 
-    private lazy var imgUser: UIImageView = {
+    private(set) lazy var imgUser: UIImageView = {
         let imageView = UIImageView()
         imageView.image = .imgUserDef
         imageView.layer.cornerRadius = 20
+        imageView.clipsToBounds = true
         return imageView
     }()
     
-    private lazy var nameLabel: UILabel = {
+    private(set) lazy var nameLabel: UILabel = {
         let label = UILabel.createLabel(withText: "\(UD.shared.userName ?? "User Name")", font: .customFont(font: .squadaOne, style: .regular, size: 36), textColor: .white, paragraphSpacing: 1, lineHeightMultiple: 1)
         return label
     }()

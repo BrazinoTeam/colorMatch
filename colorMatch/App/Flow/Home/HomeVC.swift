@@ -29,11 +29,19 @@ final class HomeVC: UIViewController, MFMailComposeViewControllerDelegate {
         super.viewWillAppear(animated)
         updateCoints()
         removeBall()
+        checkFotoLoad()
     }
+    
+    private func checkFotoLoad() {
+           if let userID = UD.shared.userID, let savedImage = contentView.imgUser.getImageFromLocal(userID: String(userID)) {
+               contentView.imgUser.image = savedImage
+           }
+       }
     
     private func updateCoints() {
         let formattedScore = contentView.formatNumber(UD.shared.scoreCoints) ?? "\(UD.shared.scoreCoints)"
         contentView.subTitleLabel.text = formattedScore
+        contentView.nameLabel.text = "\(UD.shared.userName ?? "User Name")"
         contentView.bonusesLabel.text = "\(UD.shared.scoreBonuses)"
         contentView.playedLabel.text = "\(UD.shared.scorePlayed)"
     }

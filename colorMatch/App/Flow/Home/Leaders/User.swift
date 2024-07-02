@@ -5,7 +5,9 @@ import Foundation
 
 struct User: Codable {
     let id: Int?
-    let name: String?
     let imageURL: String?
-    let score: Int
+    let balance: Int?
+    let name: String?
+    let username: String?
+
 }

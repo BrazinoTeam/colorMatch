@@ -57,6 +57,8 @@ extension GameVC {
             }
             if result == .updateScoreBackEnd {
             print("UPDATEBACK")
+                updateScore()
+                
             }
             if result == .noCoints {
                 let alert = UIAlertController(title: "Sorry", message: "You don't have enough Coints", preferredStyle: .alert)
@@ -69,5 +71,19 @@ extension GameVC {
             }
         }
     }
+    
+    func updateScore() {
+        let payload = UpdatePayload(name: nil, balance: UD.shared.scoreCoints)
+        PostService.shared.updateBalance(id: UD.shared.userID!, payload: payload) { result in
+           DispatchQueue.main.async {
+               switch result {
+               case .success(_):
+                   print("Success")
+               case .failure(let failure):
+                   print("Error - \(failure.localizedDescription)")
+               }
+           }
+       }
+   }
 }
 

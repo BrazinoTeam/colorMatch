@@ -46,6 +46,7 @@ final class BonusVC: UIViewController {
         let randomBonus = bonusArray[randomIndex]
         ud.scoreCoints += randomBonus
         presentPrizeView(coint: randomBonus)
+        updateScore()
     }
     
      func presentPrizeView(coint: Int) {
@@ -199,4 +200,17 @@ extension BonusVC {
         }
     }
     
+    func updateScore() {
+        let payload = UpdatePayload(name: nil, balance: UD.shared.scoreCoints)
+        PostService.shared.updateBalance(id: UD.shared.userID!, payload: payload) { result in
+           DispatchQueue.main.async {
+               switch result {
+               case .success(_):
+                   print("Success")
+               case .failure(let failure):
+                   print("Error - \(failure.localizedDescription)")
+               }
+           }
+       }
+   }
 }

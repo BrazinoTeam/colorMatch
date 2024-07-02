@@ -7,7 +7,10 @@ import UIKit
 
 final class StartVC: UIViewController {
 
-    
+    private let auth = AuthService.shared
+    private let post = PostService.shared
+    private let ud = UD.shared
+
     private var contentView: StartView {
         view as? StartView ?? StartView()
     }
@@ -19,38 +22,50 @@ final class StartVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         contentView.spinner.startAnimation(delay: 0.04, replicates: 18)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                   self.loadHomeVC()
             self.contentView.spinner.stopAnimation()
               }
     }
 
-   private func loadHomeVC() {
+    func loadHomeVC() {
+        if UD.shared.firstLaunchDate == nil {
+            UD.shared.firstLaunchDate = Date()
+             }
+            Task {
+                do {
+                    try await auth.authenticate()
+                    checkToken()
+                    createUserIfNeededUses()
                     let vc = HomeVC()
                     let navigationController = UINavigationController(rootViewController: vc)
                     navigationController.modalPresentationStyle = .fullScreen
                     present(navigationController, animated: true)
                     navigationController.setNavigationBarHidden(true, animated: false)
+                } catch {
+                    print("Error: \(error.localizedDescription)")
+                }
             }
         }
     
-//    private func createUserIfNeeded() {
-//        if ud.userID == nil {
-//            let payload = CreateRequestPayload(name: nil, score: ud.scorePoints)
-//            post.createPlayer(payload: payload) { [weak self] createResponse in
-//                guard let self = self else { return }
-//                ud.userID = createResponse.id
-//            } errorCompletion: { error in
-//                print("Ошибка получени данных с бека")
-//            }
-//        }
-//    }
-//    
-//    private func checkToken() {
-//        guard let token = auth.token else {
-//            return
-//        }
-//    }
-    
-   
+    private func createUserIfNeededUses() {
+        if ud.userID == nil {
+            let uuid = UUID().uuidString
+            Task {
+                do {
+                    let player = try await post.createPlayerUser(username: uuid)
+                    ud.userID = player.id
+                } catch {
+                    print("Ошибка создания пользователя: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+
+    private func checkToken() {
+        guard let token = auth.token else {
+            return
+        }
+    }
+}
 

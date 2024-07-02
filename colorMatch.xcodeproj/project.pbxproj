@@ -28,6 +28,10 @@
 		187585462C2D92F500A70FD0 /* LeadersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187585452C2D92F500A70FD0 /* LeadersVC.swift */; };
 		187585482C2D92F800A70FD0 /* LeadersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187585472C2D92F800A70FD0 /* LeadersView.swift */; };
 		1875854A2C2DA3BF00A70FD0 /* CustomSpinnerSimple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187585492C2DA3BF00A70FD0 /* CustomSpinnerSimple.swift */; };
+		187FFDC82C32D6FE00D12302 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187FFDC72C32D6FE00D12302 /* AuthService.swift */; };
+		187FFDCA2C32D70B00D12302 /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187FFDC92C32D70B00D12302 /* PostService.swift */; };
+		187FFDCD2C32D72500D12302 /* CreateRequestPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187FFDCC2C32D72500D12302 /* CreateRequestPayload.swift */; };
+		187FFDCF2C32D74C00D12302 /* GetService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187FFDCE2C32D74C00D12302 /* GetService.swift */; };
 		18D76C062C29CBB200225BC5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D76C052C29CBB200225BC5 /* AppDelegate.swift */; };
 		18D76C082C29CBB200225BC5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D76C072C29CBB200225BC5 /* SceneDelegate.swift */; };
 		18D76C0F2C29CBB600225BC5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18D76C0E2C29CBB600225BC5 /* Assets.xcassets */; };
@@ -62,6 +66,10 @@
 		187585452C2D92F500A70FD0 /* LeadersVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeadersVC.swift; sourceTree = "<group>"; };
 		187585472C2D92F800A70FD0 /* LeadersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeadersView.swift; sourceTree = "<group>"; };
 		187585492C2DA3BF00A70FD0 /* CustomSpinnerSimple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSpinnerSimple.swift; sourceTree = "<group>"; };
+		187FFDC72C32D6FE00D12302 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		187FFDC92C32D70B00D12302 /* PostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
+		187FFDCC2C32D72500D12302 /* CreateRequestPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRequestPayload.swift; sourceTree = "<group>"; };
+		187FFDCE2C32D74C00D12302 /* GetService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetService.swift; sourceTree = "<group>"; };
 		18D76C022C29CBB200225BC5 /* colorMatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = colorMatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18D76C052C29CBB200225BC5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		18D76C072C29CBB200225BC5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -162,6 +170,17 @@
 			path = Leaders;
 			sourceTree = "<group>";
 		};
+		187FFDC62C32D6D500D12302 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				187FFDC72C32D6FE00D12302 /* AuthService.swift */,
+				187FFDC92C32D70B00D12302 /* PostService.swift */,
+				187FFDCC2C32D72500D12302 /* CreateRequestPayload.swift */,
+				187FFDCE2C32D74C00D12302 /* GetService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
 		18D76BF92C29CBB200225BC5 = {
 			isa = PBXGroup;
 			children = (
@@ -211,6 +230,7 @@
 		18D76C1B2C29CBE000225BC5 /* Resourse */ = {
 			isa = PBXGroup;
 			children = (
+				187FFDC62C32D6D500D12302 /* Service */,
 				181CA2AF2C2AC90700FDE4BF /* UD.swift */,
 				181CA2B42C2ACA1A00FDE4BF /* Double + Extension.swift */,
 				184985962C2C1F9E001E6104 /* Font + Extension.swift */,
@@ -340,9 +360,13 @@
 				181CA2B02C2AC90700FDE4BF /* UD.swift in Sources */,
 				187585422C2D92EB00A70FD0 /* ProfileVC.swift in Sources */,
 				181CA2AE2C2AC8C600FDE4BF /* Settings.swift in Sources */,
+				187FFDCF2C32D74C00D12302 /* GetService.swift in Sources */,
+				187FFDCD2C32D72500D12302 /* CreateRequestPayload.swift in Sources */,
+				187FFDCA2C32D70B00D12302 /* PostService.swift in Sources */,
 				1875854A2C2DA3BF00A70FD0 /* CustomSpinnerSimple.swift in Sources */,
 				1849858C2C2C1D31001E6104 /* StartVC.swift in Sources */,
 				187585482C2D92F800A70FD0 /* LeadersView.swift in Sources */,
+				187FFDC82C32D6FE00D12302 /* AuthService.swift in Sources */,
 				181CA2A92C2AC5D800FDE4BF /* GameVC.swift in Sources */,
 				187585442C2D92EE00A70FD0 /* ProfileView.swift in Sources */,
 				187585392C2D86E800A70FD0 /* InfoView.swift in Sources */,

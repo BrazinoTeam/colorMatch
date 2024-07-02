@@ -58,7 +58,7 @@ class ProfileView: UIView, UITextFieldDelegate {
             .foregroundColor: UIColor.white
         ]
         
-        let placeholderText = NSAttributedString(string: "User Name", attributes: placeholderAttributes)
+        let placeholderText = NSAttributedString(string: "\(UD.shared.userName ?? "User Name")", attributes: placeholderAttributes)
         textField.attributedPlaceholder = placeholderText
         
         if let savedUserName = UD.shared.userID {
@@ -193,6 +193,7 @@ class ProfileView: UIView, UITextFieldDelegate {
         setupUI()
         setUpConstraints()
         displayFirstLaunchDate()
+        saveName()
     }
     
     required init?(coder: NSCoder) {
@@ -368,7 +369,7 @@ class ProfileView: UIView, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         print("Клавиатура спрятана")
-//        RatingService.shared.updateUser(userId: Memory.shared.userID ?? 0, name: Memory.shared.userName ?? "User# \(Memory.shared.userID ?? 0)")
+        GetService.shared.updateUser(userId: UD.shared.userID ?? 0, name: UD.shared.userName ?? "User# \(UD.shared.userID ?? 0)")
         return true
     }
 }
