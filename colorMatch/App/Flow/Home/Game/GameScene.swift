@@ -358,21 +358,28 @@ class GameScene: SKScene {
     private func moveExistingBalls() {
         let newBallWidth: CGFloat = 40
         let spacing: CGFloat = 12
-        
-        children.compactMap { $0 as? SKShapeNode }.forEach { shapeNode in
-            if shapeNode.name == "ball" && shapeNode !== children.last {
+        let lastBallWidth: CGFloat = 50
+
+        let balls = children.compactMap { $0 as? SKShapeNode }.filter { $0.name == "ball" }
+        guard let lastBall = balls.last else { return }
+
+        for (index, shapeNode) in balls.enumerated() {
+            if shapeNode !== lastBall {
+                let moveDistance = (index == balls.count - 2) ? lastBallWidth + spacing : newBallWidth + spacing
+
                 let scaleAction = SKAction.scale(to: 20/30, duration: 0.4) // Уменьшаем до радиуса 20
-                let moveAction = SKAction.moveBy(x: newBallWidth + spacing, y: 0, duration: 0.4) // Перемещаем на ширину нового шара плюс отступ
+                let moveAction = SKAction.moveBy(x: moveDistance, y: 0, duration: 0.4) // Перемещаем на ширину нового шара плюс отступ
                 let alphaAction = SKAction.fadeAlpha(to: 0.4, duration: 0.4) // Уменьшаем альфа-канал до 0.4
                 let groupAction = SKAction.group([scaleAction, moveAction, alphaAction])
                 shapeNode.run(groupAction)
-                
+
                 if let label = shapeNode.childNode(withName: "label") as? SKLabelNode {
                     label.fontColor = .black
                 }
             }
         }
     }
+
     
     override func update(_ currentTime: TimeInterval) {
         super.update(currentTime)
